@@ -16,6 +16,9 @@ public class Database {
 	private Database() {
 		
 	}
+	public Connection getConnection() {
+		return conn;
+	}
 	
 	public void connect() throws SQLException {
 		conn = DriverManager.getConnection(URL, "root", "Blue@123$");

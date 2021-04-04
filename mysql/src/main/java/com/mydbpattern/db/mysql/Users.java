@@ -1,5 +1,7 @@
 package com.mydbpattern.db.mysql;
 
+import java.math.BigDecimal;
+
 public class Users {
 	
 	private int id;
@@ -8,7 +10,9 @@ public class Users {
 	private String FIRSTNAME;
 	private String LASTNAME;
 	private String EMAIL;
-	
+	public Users() {
+		
+	}
 	
 	public Users(String uSERNAME, String pASSWORD, String fIRSTNAME, String lASTNAME, String eMAIL) {
 		this.USERNAME = uSERNAME;
@@ -25,6 +29,11 @@ public class Users {
 		this.FIRSTNAME = fIRSTNAME;
 		this.LASTNAME = lASTNAME;
 		this.EMAIL = eMAIL;
+	}
+
+	@Override
+	public String toString() {
+		return "Users [id=" + id + ", USERNAME=" + USERNAME + ", EMAIL=" + EMAIL + "]";
 	}
 
 	public int getId() {
