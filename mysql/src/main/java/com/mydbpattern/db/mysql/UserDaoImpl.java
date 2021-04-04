@@ -29,23 +29,45 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public void update(Users t) {
+		var conn = Database.instance().getConnection();
 
+		try {
+			var stmt = conn.prepareStatement("update users set USERNAME =? where USERID=?");
+			
+			stmt.setString(1, t.getUSERNAME());
+			stmt.setInt(2, t.getId());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DELETE ERROR RAISED");
+		}
 	}
 
 	public void delete(Users t) {
+		var conn = Database.instance().getConnection();
 
+		try {
+			var stmt = conn.prepareStatement("delete from users where USERID=?");
+
+			stmt.setInt(1, t.getId());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DELETE ERROR RAISED");
+		}
 	}
 
 	public Optional<Users> findById(int id) {
 
 		var conn = Database.instance().getConnection();
-		Users myone= new Users();
+		Users myone = new Users();
 		try {
 			var stmt = conn.prepareStatement("select * from users where USERID=?");
 			stmt.setInt(1, id);
 			var rs = stmt.executeQuery();
-			
-			
+
 			while (rs.next()) {
 				var USERNAME = rs.getString(2);
 				var PASSWORD = rs.getString(3);
@@ -53,8 +75,8 @@ public class UserDaoImpl implements UserDao {
 				var LASTNAME = rs.getString(5);
 				var EMAIL = rs.getString(6);
 
-				 myone = new Users(id, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL);
-				 return Optional.of(myone);
+				myone = new Users(id, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL);
+				return Optional.of(myone);
 			}
 			stmt.close();
 
@@ -62,7 +84,7 @@ public class UserDaoImpl implements UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Optional.ofNullable(myone) ;
+		return Optional.ofNullable(myone);
 	}
 
 	public List<Users> getAll() {
