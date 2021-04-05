@@ -10,5 +10,5 @@ public interface Dao<T> {
 	void delete(T t);
 	Optional<T> findById(int id);
 	List<T> getAll();
-	
+	List<T> getAllProperties();
 }

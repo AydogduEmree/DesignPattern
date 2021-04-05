@@ -61,7 +61,8 @@ public class UserDaoImpl implements UserDao {
 
 	public Optional<Users> findById(int id) {
 
-		var conn = Database.instance().getConnection();
+		 var conn = Database.instance().getConnection();
+		
 		Users myone = new Users();
 		try {
 			var stmt = conn.prepareStatement("select * from users where USERID=?");
@@ -91,7 +92,35 @@ public class UserDaoImpl implements UserDao {
 
 		List<Users> users = new ArrayList<>();
 		var conn = Database.instance().getConnection();
+		//var conn = DbProperties.instance().getConnection();
+		try {
+			var stmt = conn.createStatement();
+			var rs = stmt.executeQuery("select * from users");
 
+			while (rs.next()) {
+				var id = rs.getInt(1);
+				var USERNAME = rs.getString(2);
+				var PASSWORD = rs.getString(3);
+				var FIRSTNAME = rs.getString(4);
+				var LASTNAME = rs.getString(5);
+				var EMAIL = rs.getString(6);
+
+				users.add(new Users(id, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL));
+			}
+			stmt.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return users;
+	}
+
+	@Override
+	public List<Users> getAllProperties() {
+		List<Users> users = new ArrayList<>();
+		var conn = DbProperties.instance().getConnection();
 		try {
 			var stmt = conn.createStatement();
 			var rs = stmt.executeQuery("select * from users");
